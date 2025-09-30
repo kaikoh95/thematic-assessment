@@ -4,9 +4,21 @@
 
 You will build a serverless microservice that analyzes text data and groups similar sentences into thematic clusters. This task mimics a real production system we recently deployed - a text analysis service that processes customer feedback and generates actionable insights.
 
-Your task is to spend no more than 4 hours approaching a solution to the task below. It is not expected (or possible?) to complete this to a high standard in this time. The intention is to see how you approach the problem and what you value. You should keep this in mind and make sure you are able to talk about various elements of the task, why you chose certain approaches and what would be necessary to progress past the point you are able to achieve in the time.
+Your task is to spend no more than 4 hours approaching a solution to the task below. **It is not expected (or possible?) to complete this to a high standard in this time**. The intention is to see how you approach the problem and what you value. You should keep this in mind and make sure you are able to talk about various elements of the task, why you chose certain approaches and what would be necessary to progress past the point you are able to achieve in the time.
+
+**Note:** while this task includes an element of using AI in the solution, this isn't the primary thing we will be talking about. Please don't focus too heavily on getting great quality results from a model, we are more interested in how you would access and maintain use of a model.
 
 While we are unable to pay you for your time on this task, there will be a small recompense.
+
+## Submission Guidelines
+
+Please submit a git repository with your solution.
+
+## Questions?
+
+If you have questions about requirements or need clarification, please reach out. We prefer candidates who ask thoughtful questions rather than make assumptions.
+
+Good luck! We're excited to see your approach to this real-world problem.
 
 ## Service description
 
@@ -185,63 +197,11 @@ Below are some of the things that we are intending to look at or discuss
 
 Please document where and how you used AI tools in your submission.
 
-## Time Expectations
-
-This task is designed to take **4-8 hours** depending on your experience level. Focus on:
-
-1. **MVP First**: Get a working solution deployed to AWS
-2. **Quality Second**: Add testing, monitoring, documentation
-3. **Optimization Third**: Performance tuning, advanced features
-
-Don't spend excessive time on any single aspect - we prefer a well-rounded solution over perfect implementation of one component.
-
-## Submission Guidelines
-
-### Required Deliverables
-
-1. **Source Code**: Complete, well-documented codebase
-2. **Infrastructure Code**: CloudFormation/CDK/Terraform templates
-3. **Documentation**:
-   - Architecture overview
-   - Deployment instructions
-   - API documentation
-   - Testing approach
-4. **Working Deployment**: Publicly accessible API endpoint
-5. **Test Results**: Evidence of testing with provided sample data
-
-### Submission Format
-
-- GitHub repository with clear README
-- Include API endpoint URL and any necessary credentials
-- Provide deployment instructions
-- Include test outputs and performance metrics
-
-### Bonus Points
-
-- **Monitoring Dashboard**: CloudWatch/DataDog metrics
-- **CI/CD Pipeline**: Automated deployment
-- **Advanced NLP**: Sophisticated clustering algorithms
-- **Cost Optimization**: Efficient resource usage
-- **Documentation**: Comprehensive API docs
-
-## Evaluation Process
-
-1. **Code Review**: Architecture, quality, and best practices
-2. **Testing**: Functionality with provided sample data
-3. **Technical Discussion**: 30-minute call to discuss your approach
-4. **Production Readiness**: Assessment of deployment and monitoring
-
-## Questions?
-
-If you have questions about requirements or need clarification, please reach out. We prefer candidates who ask thoughtful questions rather than make assumptions.
-
-Good luck! We're excited to see your approach to this real-world problem.
-
 ---
 
 **Note**: This task mirrors actual production systems we maintain. Your solution should demonstrate production-ready thinking, even if not every feature is fully implemented.
 
-## Extra
+# Extra
 
 In reality this system is used for comparing data as well as analysis of a single query. When designing this is something that would be good to take into account.
 
@@ -303,4 +263,4 @@ Fields
   - baselineSentences: an array of sentence ids (taken from the baseline input) for sentences related to this cluster
   - comparisonSentences: an array of sentence ids (taken from the comparison input) for sentences related to this cluster
   - keySimilarities: 2-3 sentences (markdown allowed) to display in bullet points that describe similarities between the two sources
-  - keyDifferences: 2-3 sentences (markdown allowed) to display in bullet points that descibe the differences between the two sources
+  - keyDifferences: 2-3 sentences (markdown allowed) to display in bullet points that describe the differences between the two sources
