@@ -65,7 +65,6 @@ Fields
   "clusters": [
     {
       "title": "Specific Sub theme Title",
-      "theme": "specific nuanced aspect",
       "sentiment": "positive|negative|neutral",
       "sentences": ["unique-sentence-id", "unique-sentence-id-2"],
       "keyInsights": [
@@ -85,6 +84,24 @@ Fields:
   - sentiment: whether this cluster represents positive, negative or neutral sentiment
   - sentences: an array of sentence ids (taken from the input)
   - keyInsights: 2-3 sentences (markdown allowed) to display in bullet points
+
+#### Example output
+
+```json
+{
+  "clusters": [
+    {
+      "title": "Portion size and selection",
+      "sentiment": "negative",
+      "keyInsights": [
+        "Customers frequently note that meals are either **too limited in picks or not aligned with expectations**, indicating a need for expanded or improved meal variety and portion sizing.",
+        "Frequent remarks about **snacks vs meals** (either too few snacks or meals served infrequently) highlight poor scheduling of food service on some flights.",
+        "Several comments point to **inconsistency in availability of preferred items** (e.g., vegetarian options) and late service leading to being unable to obtain desired foods."
+      ]
+    }
+  ]
+}
+```
 
 ## Technical Requirements
 
