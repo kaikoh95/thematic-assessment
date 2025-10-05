@@ -29,13 +29,13 @@ logger.setLevel(logging.INFO)
 
 # Import only lightweight validation/formatting modules at module level
 # Heavy ML imports (PyTorch, transformers) are deferred to get_cached_instances()
-from utils.validators import (
+from src.utils.validators import (
     AnalysisRequest,
     validate_request,
     format_validation_errors,
     SentenceInput
 )
-from utils.formatters import (
+from src.utils.formatters import (
     AnalysisFormatter,
     format_success_response,
     format_error_response
@@ -43,10 +43,10 @@ from utils.formatters import (
 
 # Type hints only (not imported at runtime)
 if TYPE_CHECKING:
-    from clustering.embeddings import SentenceEmbedder
-    from clustering.clusterer import TextClusterer
-    from sentiment.analyzer import ClusterSentimentAnalyzer
-    from clustering.insights import ClusterInsightsGenerator
+    from src.clustering.embeddings import SentenceEmbedder
+    from src.clustering.clusterer import TextClusterer
+    from src.sentiment.analyzer import ClusterSentimentAnalyzer
+    from src.clustering.insights import ClusterInsightsGenerator
 
 # Global instances (cached across Lambda invocations)
 _embedder: Optional['SentenceEmbedder'] = None
@@ -75,10 +75,10 @@ def get_cached_instances():
         # Lazy load ML modules to avoid Lambda init timeout (10s limit)
         # PyTorch + transformers import takes 10-15s, exceeds init phase
         # Invocation phase has 120s timeout - plenty of time for model loading
-        from clustering.embeddings import SentenceEmbedder
-        from clustering.clusterer import TextClusterer
-        from sentiment.analyzer import ClusterSentimentAnalyzer
-        from clustering.insights import ClusterInsightsGenerator
+        from src.clustering.embeddings import SentenceEmbedder
+        from src.clustering.clusterer import TextClusterer
+        from src.sentiment.analyzer import ClusterSentimentAnalyzer
+        from src.clustering.insights import ClusterInsightsGenerator
 
         _embedder = SentenceEmbedder(
             model_name='sentence-transformers/all-MiniLM-L6-v2',
@@ -280,7 +280,7 @@ def analyze_feedback(
     # Analyze sentence-level sentiment for all baseline sentences
     for i, sentence in enumerate(baseline_sentences):
         sentiment_scores = sentiment_analyzer.analyze_single(sentence)
-        from sentiment.analyzer import classify_sentiment
+        from src.sentiment.analyzer import classify_sentiment
         baseline_sentence_sentiments[baseline_ids[i]] = {
             'label': classify_sentiment(sentiment_scores['compound']),
             'score': sentiment_scores['compound']
@@ -343,7 +343,7 @@ def analyze_feedback(
         # Sentence-level sentiment for comparison
         for i, sentence in enumerate(comparison_sentences_text):
             sentiment_scores = sentiment_analyzer.analyze_single(sentence)
-            from sentiment.analyzer import classify_sentiment
+            from src.sentiment.analyzer import classify_sentiment
             baseline_sentence_sentiments[comparison_ids[i]] = {
                 'label': classify_sentiment(sentiment_scores['compound']),
                 'score': sentiment_scores['compound']
