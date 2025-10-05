@@ -37,7 +37,8 @@ During implementation, several questions arose that required design decisions. T
 **Q: For comparison analysis, should baseline and comparison clusters be merged or kept separate?**
 - **Decision:** Keep separate, label with `source` field
 - **Rationale:** Users need to distinguish which dataset each cluster came from. Merging would lose this critical context.
-- **Future:** Could add cross-dataset similarity analysis to identify shared themes.
+- **Limitation:** Current implementation does **parallel analysis** (baseline + comparison clustered independently) rather than **comparative analysis** (aligned clusters with similarities/differences). Output format doesn't match README spec requiring `baselineSentences`/`comparisonSentences` arrays and `keySimilarities`/`keyDifferences` insights.
+- **Future:** Implement true comparative analysis with cluster alignment, similarity matching, and difference detection per README specification.
 
 ### Insights & Output Format
 
@@ -405,6 +406,12 @@ curl -X POST https://qs4om06hn8.execute-api.ap-southeast-2.amazonaws.com/prod/an
    - Single Lambda invocation limited to 900s timeout (15 minutes)
    - Very large datasets (>1000 sentences) may need chunking
 
+5. **Comparative Analysis Incomplete**
+   - Current implementation clusters baseline/comparison independently (parallel analysis)
+   - Output format doesn't match README spec for true comparative analysis
+   - Missing: `baselineSentences`/`comparisonSentences` arrays, `keySimilarities`/`keyDifferences` insights
+   - Current approach provides theme-level comparison but not cluster-level alignment
+
 ---
 
 ## Future Optimizations
@@ -483,8 +490,11 @@ curl -X POST https://qs4om06hn8.execute-api.ap-southeast-2.amazonaws.com/prod/an
      - Use GPT-4/Claude to generate natural language insights
      - Replace TF-IDF keywords with contextual summaries
      - Cost: ~$0.001 per request with prompt caching
-   - **Comparative Analysis**
-     - Already supported in code but not fully optimized
+   - **True Comparative Analysis** (HIGH PRIORITY)
+     - Current: Parallel analysis (baseline + comparison clustered independently)
+     - Required: Cluster alignment with matched baseline/comparison sentences per cluster
+     - Implement: `baselineSentences`/`comparisonSentences` arrays per README spec
+     - Generate: `keySimilarities`/`keyDifferences` insights via cosine similarity + LLM
      - Add statistical significance testing for comparison insights
    - **Trend Detection**
      - Identify emerging themes over time (requires dataset history)

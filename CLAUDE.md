@@ -284,6 +284,7 @@ Current coverage: **68.44%** across 95 tests
 2. **Cold start performance**: First invocation ~4-5s (model download)
 3. **Clustering non-determinism**: HDBSCAN/UMAP has slight randomness across runs
 4. **No authentication**: API is public (should add API keys for production)
+5. **Comparative analysis incomplete**: Current implementation clusters baseline/comparison independently (parallel analysis) rather than aligning them (comparative analysis). Output format doesn't match README spec for `baselineSentences`/`comparisonSentences` or `keySimilarities`/`keyDifferences`
 
 ## Future Enhancements (Priority Order)
 
@@ -291,6 +292,7 @@ Current coverage: **68.44%** across 95 tests
 - Lambda SnapStart for Python 3.12 (80% cold start reduction)
 - S3 model cache (2-3s faster cold starts)
 - CloudWatch custom metrics for monitoring
+- **True comparative analysis**: Implement cluster alignment between baseline/comparison datasets with `baselineSentences`/`comparisonSentences` arrays and `keySimilarities`/`keyDifferences` insights per README spec
 
 **Medium Priority**:
 - Memory right-sizing (potential 20-30% cost savings)

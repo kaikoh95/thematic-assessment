@@ -35,10 +35,11 @@ A production-ready serverless microservice that performs **semantic clustering**
    - Common phrase detection
    - Cluster title generation
 
-4. **Comparison Mode**
+4. **Comparison Mode** (Partial Implementation)
    - Baseline vs comparison dataset analysis
-   - Identifies unique and shared themes
+   - Identifies unique and shared themes (theme-level only)
    - Sentiment trend analysis
+   - **Limitation:** Current implementation does parallel analysis (independent clustering) rather than comparative analysis (cluster alignment). See Known Limitations below.
 
 ---
 
@@ -421,23 +422,29 @@ See [API.md](API.md) for complete API reference.
 
 ### Phase 2 (If Time Permits)
 
-1. **Performance Optimizations**
+1. **True Comparative Analysis** (HIGH PRIORITY)
+   - Implement cluster alignment between baseline and comparison datasets
+   - Add `baselineSentences`/`comparisonSentences` arrays per README spec
+   - Generate `keySimilarities`/`keyDifferences` insights using cosine similarity
+   - Replace theme-level comparison with cluster-level comparative analysis
+
+2. **Performance Optimizations**
    - Enable Lambda SnapStart
    - Add provisioned concurrency
    - Implement response caching
 
-2. **Additional Features**
+3. **Additional Features**
    - Time-series analysis (trend detection)
    - Multi-language support
    - Custom clustering parameters via API
 
-3. **Production Hardening**
+4. **Production Hardening**
    - Add authentication (API keys, IAM)
    - Custom domain with Route53
    - CloudWatch dashboards
    - X-Ray tracing
 
-4. **Advanced Analytics**
+5. **Advanced Analytics**
    - Topic modeling (LDA)
    - Named entity recognition
    - Aspect-based sentiment analysis

@@ -190,6 +190,8 @@ Analyzes customer feedback sentences using semantic clustering and sentiment ana
 | `comparison_only_themes` | Array<String> | Themes unique to comparison |
 | `shared_themes` | Array<String> | Themes in both datasets |
 
+> **Note:** Current implementation provides **theme-level comparison** (independent clustering with source labels). The README specification requires **cluster-level comparative analysis** with aligned `baselineSentences`/`comparisonSentences` arrays and `keySimilarities`/`keyDifferences` insights. This enhancement is planned for future releases.
+
 **Error Response (400 Bad Request):**
 
 ```json
