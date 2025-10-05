@@ -59,6 +59,8 @@ class TextAnalysisStack(Stack):
         )
 
         # Main Lambda function with Docker container
+        # Docker layer caching is handled via Docker Buildx in GitHub Actions
+        # The ghaction-github-runtime and buildx setup in CI enables automatic caching
         text_analysis_lambda = lambda_.DockerImageFunction(
             self,
             "TextAnalysisFunction",
