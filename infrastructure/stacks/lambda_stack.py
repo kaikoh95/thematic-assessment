@@ -15,7 +15,7 @@ Key configurations:
 - Python 3.12 runtime (Container Image deployment)
 - 3GB memory (optimal for ML workloads)
 - 900s timeout (15 minutes - handles large batches)
-- Ephemeral storage: 512MB (default)
+- Ephemeral storage: 2GB (model caching)
 """
 
 from aws_cdk import (
@@ -70,7 +70,7 @@ class TextAnalysisStack(Stack):
             role=lambda_role,
             timeout=Duration.seconds(900),  # 15 minutes (for large batches)
             memory_size=3008,  # 3GB (optimal for ML)
-            ephemeral_storage_size=Size.mebibytes(512),  # 512MB (SnapStart max)
+            ephemeral_storage_size=Size.mebibytes(2048),  # 2GB (for model caching)
             environment={
                 "LOG_LEVEL": "INFO",
                 "NUMBA_CACHE_DIR": "/tmp",  # Use /tmp for numba caching (only writable dir in Lambda)

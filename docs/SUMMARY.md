@@ -118,7 +118,7 @@ During implementation, several questions arose that required design decisions. T
    - Models cached globally across warm invocations for performance
 
 3. **Ephemeral Storage Strategy**
-   - All model caches (`/tmp`) use Lambda's ephemeral storage (512MB default)
+   - All model caches (`/tmp`) use Lambda's ephemeral storage (2GB configured)
    - Environment variables redirect HuggingFace, Transformers, and Numba caches to `/tmp`
 
 ### Infrastructure Components
@@ -306,7 +306,7 @@ cdk deploy --require-approval never
 All configuration is environment-based:
 - Lambda timeout: 900s (15 minutes)
 - Lambda memory: 3008 MB
-- Ephemeral storage: 512 MB
+- Ephemeral storage: 2048 MB
 - Log retention: 7 days
 - Region: ap-southeast-2
 

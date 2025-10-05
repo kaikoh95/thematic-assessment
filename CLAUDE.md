@@ -103,7 +103,7 @@ Input → Validation → Embeddings → Clustering → Sentiment → Insights �
 4. **Infrastructure** (`infrastructure/`)
    - CDK stack provisions Lambda + API Gateway + IAM + CloudWatch
    - Uses **Docker container deployment** (not layers) due to 250MB layer limit
-   - 3GB memory, 900s timeout (15 minutes), 512MB ephemeral storage for ML workloads
+   - 3GB memory, 900s timeout (15 minutes), 2GB ephemeral storage for ML workloads
 
 ### Critical Design Patterns
 
