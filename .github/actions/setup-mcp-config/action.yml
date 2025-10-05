@@ -1,0 +1,26 @@
+name: 'Setup MCP Configuration'
+description: 'Creates MCP configuration for Claude Code workflows'
+inputs:
+  context7_api_key:
+    description: 'Context7 API key for documentation access'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Create MCP Configuration
+      shell: bash
+      run: |
+        cat > /tmp/mcp-config.json << 'EOF'
+        {
+          "mcpServers": {
+            "context7": {
+              "type": "http",
+              "url": "https://mcp.context7.com/mcp",
+              "headers": {
+                "CONTEXT7_API_KEY": "${{ inputs.context7_api_key }}"
+              }
+            }
+          }
+        }
+        EOF
