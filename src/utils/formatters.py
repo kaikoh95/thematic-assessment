@@ -13,6 +13,7 @@ Responsibilities:
 Strategy: Pure data transformation, no ML logic.
 """
 
+import json
 import logging
 from typing import List, Dict, Optional, Tuple
 from collections import defaultdict, Counter
@@ -341,10 +342,10 @@ def format_error_response(
             'Access-Control-Allow-Headers': 'Content-Type',
             'Access-Control-Allow-Methods': 'POST,OPTIONS'
         },
-        'body': {
+        'body': json.dumps({
             'error': error_message,
             'request_id': request_id
-        }
+        })
     }
 
 
@@ -377,7 +378,7 @@ def format_success_response(
             'Access-Control-Allow-Headers': 'Content-Type',
             'Access-Control-Allow-Methods': 'POST,OPTIONS'
         },
-        'body': response_dict
+        'body': json.dumps(response_dict)
     }
 
 
