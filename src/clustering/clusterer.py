@@ -142,18 +142,22 @@ class TextClusterer:
             Reduced embeddings (5-10 dims)
         """
         n_samples = len(embeddings)
+        n_features = embeddings.shape[1]
+
+        # Adaptive n_components (can't exceed min(n_samples, n_features))
+        n_components = min(self.umap_n_components, n_samples, n_features)
 
         # Adaptive n_neighbors (can't exceed n_samples - 1)
         n_neighbors = min(self.umap_n_neighbors, n_samples - 1)
 
         logger.info(
-            f"UMAP: reducing {embeddings.shape[1]}→{self.umap_n_components} dims "
+            f"UMAP: reducing {embeddings.shape[1]}→{n_components} dims "
             f"(n_neighbors={n_neighbors})"
         )
 
         try:
             reducer = umap.UMAP(
-                n_components=self.umap_n_components,
+                n_components=n_components,
                 n_neighbors=n_neighbors,
                 min_dist=0.0,  # Tight packing for clustering
                 metric='cosine',  # Best for sentence embeddings
@@ -169,7 +173,9 @@ class TextClusterer:
             logger.error(f"UMAP failed: {e}, using PCA fallback")
             # Fallback to PCA if UMAP fails
             from sklearn.decomposition import PCA
-            pca = PCA(n_components=self.umap_n_components, random_state=self.random_state)
+            # Adaptive n_components for PCA as well
+            pca_components = min(self.umap_n_components, n_samples, n_features)
+            pca = PCA(n_components=pca_components, random_state=self.random_state)
             return pca.fit_transform(embeddings)
 
     def _try_hdbscan(self, embeddings: np.ndarray, n_samples: int) -> Dict:
