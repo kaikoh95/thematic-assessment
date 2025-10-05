@@ -21,7 +21,7 @@ app = App()
 # Get AWS account and region from environment or use defaults
 env = Environment(
     account=os.environ.get("CDK_DEFAULT_ACCOUNT"),
-    region=os.environ.get("CDK_DEFAULT_REGION", "us-east-1"),
+    region=os.environ.get("CDK_DEFAULT_REGION", "ap-southeast-2"),
 )
 
 # Create stack

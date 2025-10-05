@@ -12,10 +12,10 @@ Architecture:
 API Gateway → Lambda (with Layer) → CloudWatch Logs
 
 Key configurations:
-- Python 3.12 runtime (SnapStart compatible)
+- Python 3.12 runtime (Container Image deployment)
 - 3GB memory (optimal for ML workloads)
-- 120s timeout (handles large batches)
-- Ephemeral storage: 2GB (model caching)
+- 900s timeout (15 minutes - handles large batches)
+- Ephemeral storage: 512MB (default)
 """
 
 from aws_cdk import (
@@ -68,9 +68,9 @@ class TextAnalysisStack(Stack):
                 # Use CMD from Dockerfile - don't override here
             ),
             role=lambda_role,
-            timeout=Duration.seconds(120),  # 2 minutes
+            timeout=Duration.seconds(900),  # 15 minutes (for large batches)
             memory_size=3008,  # 3GB (optimal for ML)
-            ephemeral_storage_size=Size.mebibytes(2048),  # 2GB temp storage
+            ephemeral_storage_size=Size.mebibytes(512),  # 512MB (SnapStart max)
             environment={
                 "LOG_LEVEL": "INFO",
                 "NUMBA_CACHE_DIR": "/tmp",  # Use /tmp for numba caching (only writable dir in Lambda)
@@ -82,13 +82,19 @@ class TextAnalysisStack(Stack):
             log_retention=logs.RetentionDays.ONE_WEEK,
         )
 
-        # Optional: Enable SnapStart for faster cold starts (Python 3.12+)
-        # Note: SnapStart requires published versions
-        # Uncomment for production:
-        # cfn_function = text_analysis_lambda.node.default_child
-        # cfn_function.snap_start = lambda_.CfnFunction.SnapStartProperty(
-        #     apply_on="PublishedVersions"
-        # )
+        # SnapStart CANNOT be enabled - incompatible with Container Images
+        # AWS Lambda SnapStart limitations:
+        # - Only supports ZIP package deployments (not DockerImageFunction)
+        # - Does not support ephemeral storage >512MB
+        #
+        # Our architecture uses Container Images because:
+        # - ML dependencies exceed 250MB ZIP limit
+        # - Container images support up to 10GB
+        #
+        # Cold start mitigation strategies instead:
+        # 1. Global model caching (models persist across warm invocations)
+        # 2. Lazy loading (defer heavy imports to invocation phase)
+        # 3. Provisioned concurrency (if needed for production)
 
         # ====================================================================
         # API GATEWAY
