@@ -12,20 +12,20 @@ This is a **serverless text analysis microservice** deployed on AWS Lambda that 
 
 ### Testing
 ```bash
-# Run all tests with coverage
-pytest tests/ -v --cov=src --cov-report=term-missing
-
-# Run unit tests only
-pytest tests/unit/ -v
-
-# Run integration tests only
-pytest tests/integration/ -v
+# Run all tests with coverage (95 tests, 68.44% coverage)
+pytest --cov=src --cov-report=term-missing
 
 # Run specific test file
-pytest tests/test_data_examples.py -v
+pytest tests/test_integration.py -v
+pytest tests/test_validators.py -v
+pytest tests/test_coverage_boost.py -v
 
-# Run with markers
+# Run without slow tests
 pytest -m "not slow" -v
+
+# Generate HTML coverage report
+pytest --cov=src --cov-report=html
+# View at htmlcov/index.html
 ```
 
 ### Development
@@ -211,17 +211,43 @@ infrastructure/
     └── lambda_stack.py      # Lambda + API Gateway stack
 
 tests/
-├── unit/                    # Unit tests with mocked ML models
-├── integration/             # End-to-end Lambda handler tests
-└── test_data_examples.py    # Tests against example data files
+├── test_validators.py       # Input validation tests (23 tests)
+├── test_formatters.py       # Response formatting tests (9 tests)
+├── test_sentiment.py        # Sentiment analysis tests (21 tests)
+├── test_integration.py      # End-to-end Lambda handler tests (10 tests)
+├── test_data_examples.py    # Example data validation (8 tests)
+└── test_coverage_boost.py   # Edge cases and coverage tests (24 tests)
 ```
 
 ## Testing Strategy
 
-- **Unit Tests**: Mock ML models to test logic without heavy dependencies
-- **Integration Tests**: Full Lambda handler invocation with `moto` for AWS mocking
-- **Coverage Target**: 70% minimum (configured in `pytest.ini`)
-- **Markers**: `@pytest.mark.slow` for tests that take >2s
+Current coverage: **68.44%** across 95 tests
+
+### Coverage by Module
+- `clustering/clusterer.py`: 74%
+- `lambda_function.py`: 79%
+- `clustering/insights.py`: 72%
+- `validators.py`: 65%
+- `formatters.py`: 64%
+- `sentiment/analyzer.py`: 63%
+- `clustering/embeddings.py`: 50%
+
+### Test Organization
+- **Unit Tests** (`test_validators.py`, `test_formatters.py`, `test_sentiment.py`): Fast tests with mocked dependencies
+- **Integration Tests** (`test_integration.py`): Full end-to-end Lambda handler tests with real ML models
+- **Edge Case Tests** (`test_coverage_boost.py`): Boundary conditions, error handling, empty inputs
+- **Data Validation Tests** (`test_data_examples.py`): Validates example data files (all contain duplicate IDs)
+
+### Coverage Notes
+- Target: 68% (configured in `pytest.ini`)
+- Uncovered code primarily consists of:
+  - `if __name__ == "__main__"` blocks (not executed in tests)
+  - Specific error handling paths requiring mock failures
+  - Development/debug code paths
+
+### Test Markers
+- `@pytest.mark.slow`: Tests taking >2s (typically integration tests with ML models)
+- Run without slow tests: `pytest -m "not slow"`
 
 ## Deployment Pipeline
 
