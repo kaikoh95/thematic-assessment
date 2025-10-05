@@ -1,0 +1,7 @@
+# AWS CDK Dependencies for Infrastructure
+
+aws-cdk-lib==2.160.0
+constructs>=10.0.0,<11.0.0
+
+# For type hints and development
+boto3-stubs[essential]==1.35.36

@@ -1,0 +1,19 @@
+# Core ML/NLP Dependencies
+sentence-transformers==3.1.1
+scikit-learn==1.5.2
+hdbscan==0.8.38.post2
+umap-learn==0.5.6
+vaderSentiment==3.3.2
+numpy==1.26.4
+
+# API & Validation
+pydantic==2.9.2
+
+# AWS
+boto3==1.35.36
+
+# Development & Testing
+pytest==8.3.3
+pytest-cov==5.0.0
+pytest-mock==3.14.0
+moto[lambda,apigateway]==5.0.16

@@ -1,0 +1,51 @@
+# Exclude unnecessary files from Docker build
+
+# Version control
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info
+dist
+build
+.pytest_cache
+.venv
+venv
+env
+
+# CDK
+cdk.out
+infrastructure
+
+# Documentation
+docs
+*.md
+!README.md
+
+# Tests
+tests
+
+# Layer files (we build in Docker instead)
+layers
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.log
+tmp
+.tmp
