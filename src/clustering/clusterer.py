@@ -209,7 +209,7 @@ class TextClusterer:
                 min_samples=min_samples,
                 metric='euclidean',  # After UMAP, euclidean is appropriate
                 cluster_selection_method='eom',  # Excess of Mass (stable)
-                algorithm='best'  # Auto-select fastest algorithm
+                algorithm='auto'  # Auto-select fastest algorithm
             )
 
             labels = clusterer.fit_predict(embeddings)
