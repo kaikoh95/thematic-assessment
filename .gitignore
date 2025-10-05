@@ -1,0 +1,75 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+
+# CDK
+infrastructure/cdk.out/
+infrastructure/.cdk.staging/
+infrastructure/cdk.context.json
+
+# Lambda
+*.zip
+lambda-package/
+layer.zip
+layers/ml-dependencies/python/
+
+# AWS
+.aws-sam/
+
+# Environment
+.env
+.env.local
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Models (cached)
+.cache/
+models/
+
+# Temporary files
+tmp/
+temp/
+
+cdk.out/
