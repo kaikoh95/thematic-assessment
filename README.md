@@ -1,4 +1,4 @@
-# Backend Take-Home Task: Text Analysis Microservice
+# Thematic Assessment: Text Analysis Microservice
 
 ## Overview
 
