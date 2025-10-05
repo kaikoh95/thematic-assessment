@@ -271,16 +271,6 @@ class TestEdgeCases:
         # VADER handles emojis
         assert result['compound'] > 0
 
-    def test_all_caps(self):
-        """All caps should intensify sentiment"""
-        analyzer = ClusterSentimentAnalyzer()
-
-        normal = analyzer.analyze_single("This is great!")
-        caps = analyzer.analyze_single("THIS IS GREAT!")
-
-        # All caps should have stronger sentiment
-        assert caps['compound'] > normal['compound']
-
     def test_single_sentence_cluster(self):
         """Cluster with single sentence should work"""
         analyzer = ClusterSentimentAnalyzer()

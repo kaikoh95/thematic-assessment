@@ -127,7 +127,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     start_time = time.time()
 
     # Get request ID for tracing
-    request_id = context.aws_request_id if context else 'local-test'
+    # Handle both AWS Lambda context (aws_request_id) and MockContext (request_id)
+    request_id = getattr(context, 'aws_request_id', getattr(context, 'request_id', 'local-test')) if context else 'local-test'
 
     logger.info(f"Processing request {request_id}")
 

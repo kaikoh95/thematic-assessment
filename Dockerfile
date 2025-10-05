@@ -10,8 +10,8 @@ COPY requirements.txt ${LAMBDA_TASK_ROOT}/
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt --target "${LAMBDA_TASK_ROOT}"
 
-# Copy application code
-COPY src/ ${LAMBDA_TASK_ROOT}/
+# Copy application code (maintain src/ directory structure)
+COPY src/ ${LAMBDA_TASK_ROOT}/src/
 
-# Set the CMD to your handler
-CMD ["lambda_function.handler"]
+# Set the CMD to your handler (now in src/ subdirectory)
+CMD ["src.lambda_function.handler"]
