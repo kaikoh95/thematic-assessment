@@ -52,10 +52,10 @@
 ### 2. API & Infrastructure
 
 #### AWS Services
-- **Lambda**: Python 3.11 runtime
+- **Lambda**: Python 3.12 runtime
   - Memory: 3GB (for ML libraries)
-  - Timeout: 120s (target <10s actual)
-  - Layers: ML dependencies (sentence-transformers, etc.)
+  - Timeout: 900s / 15 minutes (target <10s actual)
+  - Container Image: ML dependencies (sentence-transformers, etc.)
 
 - **API Gateway**: REST API
   - Request validation
@@ -121,7 +121,7 @@ moto[lambda,apigateway]==4.2.9
          │
          ▼
 ┌─────────────────┐
-│  Lambda Function│ ← Python 3.11, 3GB RAM, 120s timeout
+│  Lambda Function│ ← Python 3.12, 3GB RAM, 900s timeout
 │  ┌───────────┐  │
 │  │  Handler  │  │
 │  └─────┬─────┘  │

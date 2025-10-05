@@ -25,8 +25,8 @@ A serverless microservice that performs text clustering, sentiment analysis, and
                │ Invoke
                ▼
 ┌──────────────────────────────────────────────────────────┐
-│           Lambda Function (Python 3.11)                   │
-│  Runtime: 3GB RAM, 120s timeout                          │
+│           Lambda Function (Python 3.12)                   │
+│  Runtime: 3GB RAM, 900s timeout (15 minutes)             │
 │                                                           │
 │  ┌────────────────────────────────────────────────────┐ │
 │  │            lambda_function.handler()                │ │
@@ -222,7 +222,7 @@ lambda_function = _lambda.Function(
     handler="lambda_function.handler",
     code=_lambda.Code.from_asset("src"),
     memory_size=3008,  # 3GB
-    timeout=Duration.seconds(120),
+    timeout=Duration.seconds(900),  # 15 minutes
     environment={
         "EMBEDDING_MODEL": "all-MiniLM-L6-v2",
         "MIN_CLUSTER_SIZE": "3",

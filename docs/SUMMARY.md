@@ -53,7 +53,7 @@ During implementation, several questions arose that required design decisions. T
 
 **Q: What response time is acceptable for various dataset sizes?**
 - **Decision:** Target <3s for 100 sentences, <10s for 500 sentences (warm start)
-- **Rationale:** Based on typical API timeout expectations. Lambda's 120s timeout provides headroom.
+- **Rationale:** Based on typical API timeout expectations. Lambda's 900s timeout (15 minutes) provides headroom.
 - **Actual Performance:** ~990ms cold start, <3s warm for 100 sentences ✅
 
 **Q: Should we implement concurrency limits to prevent cost overruns?**
@@ -113,12 +113,12 @@ During implementation, several questions arose that required design decisions. T
    - Platform set to `linux/amd64` for Lambda x86_64 compatibility
 
 2. **Lazy Loading Pattern**
-   - ML modules imported during invocation phase (120s timeout) instead of init phase (10s timeout)
+   - ML modules imported during invocation phase (900s timeout) instead of init phase (10s timeout)
    - Reduced cold start from 10s+ to ~990ms
    - Models cached globally across warm invocations for performance
 
 3. **Ephemeral Storage Strategy**
-   - All model caches (`/tmp`) use Lambda's ephemeral storage (2GB configured)
+   - All model caches (`/tmp`) use Lambda's ephemeral storage (512MB default)
    - Environment variables redirect HuggingFace, Transformers, and Numba caches to `/tmp`
 
 ### Infrastructure Components
@@ -172,7 +172,7 @@ Input → Validation → Embeddings → Clustering → Sentiment → Insights �
 - **Cold Start:** ~4-5s (model download + initialization)
 - **Warm Start:** <3s for 100 sentences, <10s for 500 sentences
 - **Memory:** 3008 MB (3GB) optimal for ML workloads
-- **Timeout:** 120s for large datasets
+- **Timeout:** 900s for large datasets (15 minutes)
 
 ---
 
@@ -304,9 +304,9 @@ cdk deploy --require-approval never
 ### Environment Configuration
 
 All configuration is environment-based:
-- Lambda timeout: 120s
+- Lambda timeout: 900s (15 minutes)
 - Lambda memory: 3008 MB
-- Ephemeral storage: 2048 MB
+- Ephemeral storage: 512 MB
 - Log retention: 7 days
 - Region: ap-southeast-2
 
@@ -402,7 +402,7 @@ curl -X POST https://qs4om06hn8.execute-api.ap-southeast-2.amazonaws.com/prod/an
    - May produce slightly different clusters on re-runs
 
 4. **Scalability**
-   - Single Lambda invocation limited to 120s timeout
+   - Single Lambda invocation limited to 900s timeout (15 minutes)
    - Very large datasets (>1000 sentences) may need chunking
 
 ---

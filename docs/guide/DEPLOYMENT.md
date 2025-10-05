@@ -224,9 +224,9 @@ If the layer is too large:
 
 If Lambda times out on cold start:
 
-1. Increase timeout in `lambda_stack.py` (currently 120s)
+1. Increase timeout in `lambda_stack.py` (currently 900s / 15 minutes)
 2. Reduce memory (lower memory = slower but cheaper)
-3. Enable SnapStart
+3. Note: SnapStart cannot be enabled (incompatible with container images)
 
 ### CORS Errors
 

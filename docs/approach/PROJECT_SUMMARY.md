@@ -158,8 +158,8 @@ backend-task-2025/
 ### Resource Configuration
 
 - **Memory:** 3GB (optimal for ML workloads)
-- **Timeout:** 120s (2 minutes)
-- **Ephemeral Storage:** 2GB (model caching)
+- **Timeout:** 900s (15 minutes)
+- **Ephemeral Storage:** 512MB (default)
 - **Runtime:** Python 3.12
 
 ### Cost Estimation

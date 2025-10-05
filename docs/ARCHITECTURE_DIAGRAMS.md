@@ -466,7 +466,7 @@ graph TB
     end
 
     subgraph "Compute"
-        LAMBDA_FUNC[Lambda Function<br/>• Container Image<br/>• 3008 MB memory<br/>• 120s timeout<br/>• 2048 MB ephemeral]
+        LAMBDA_FUNC[Lambda Function<br/>• Container Image<br/>• 3008 MB memory<br/>• 900s timeout<br/>• 512 MB ephemeral]
     end
 
     subgraph "Storage & Registry"

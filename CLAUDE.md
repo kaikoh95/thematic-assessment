@@ -103,11 +103,11 @@ Input → Validation → Embeddings → Clustering → Sentiment → Insights �
 4. **Infrastructure** (`infrastructure/`)
    - CDK stack provisions Lambda + API Gateway + IAM + CloudWatch
    - Uses **Docker container deployment** (not layers) due to 250MB layer limit
-   - 3GB memory, 120s timeout, 2GB ephemeral storage for ML workloads
+   - 3GB memory, 900s timeout (15 minutes), 512MB ephemeral storage for ML workloads
 
 ### Critical Design Patterns
 
-**Lazy Loading**: ML modules imported during invocation (120s timeout) not init (10s timeout). This reduced cold start from 10s+ to ~990ms.
+**Lazy Loading**: ML modules imported during invocation (900s timeout) not init (10s timeout). This reduced cold start from 10s+ to ~990ms.
 
 **Global Caching**: Models loaded once per Lambda container, reused across warm invocations. Cache variables prefixed with `_` (e.g., `_embedder`, `_clusterer`).
 
@@ -180,7 +180,7 @@ Input → Validation → Embeddings → Clustering → Sentiment → Insights �
 - **Cold start**: ~4-5s (model download + initialization)
 - **Warm start**: <3s for 100 sentences, <10s for 500 sentences
 - **Memory**: 3008 MB (3GB) optimal for ML workloads
-- **Timeout**: 120s maximum
+- **Timeout**: 900s maximum (15 minutes)
 
 ### Test Data Issues
 The provided example files in `data/` directory contain **duplicate sentence IDs** and will fail validation. Tests in `tests/test_data_examples.py` verify this validation correctly rejects invalid data.

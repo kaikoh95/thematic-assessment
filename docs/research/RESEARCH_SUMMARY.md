@@ -204,7 +204,7 @@ aws lambda publish-layer-version \
 | Setting | Value | Rationale |
 |---------|-------|-----------|
 | **Memory** | 3,008 MB | Provides 2 vCPUs for ML inference |
-| **Timeout** | 120 seconds | Max for API Gateway, allows cold start |
+| **Timeout** | 900 seconds (15 minutes) | Handles large batches and cold starts |
 | **Ephemeral Storage** | 512 MB (default) | Sufficient for model cache |
 
 ### Cold Start Optimization
@@ -281,7 +281,7 @@ class TextAnalysisStack(Stack):
             code=lambda_.Code.from_asset("src"),
             layers=[layer],
             memory_size=3008,
-            timeout=Duration.seconds(120),
+            timeout=Duration.seconds(900),  # 15 minutes
             environment={
                 "EMBEDDING_MODEL": "all-MiniLM-L6-v2",
                 "MAX_CLUSTERS": "10"

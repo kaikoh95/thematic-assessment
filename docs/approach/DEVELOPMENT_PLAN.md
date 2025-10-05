@@ -262,9 +262,9 @@ File: `infrastructure/stacks/lambda_stack.py`
 - IAM roles (minimal permissions)
 
 # Configuration:
-- Runtime: Python 3.11
+- Runtime: Python 3.12
 - Memory: 3GB
-- Timeout: 120s
+- Timeout: 900s (15 minutes)
 - Environment variables
 ```
 
