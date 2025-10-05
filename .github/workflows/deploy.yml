@@ -55,7 +55,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -72,10 +71,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Install AWS CDK
-        run: |
-          npm install -g aws-cdk@latest
-
       - name: Install CDK dependencies
         working-directory: ./infrastructure
         run: |
@@ -83,11 +78,11 @@ jobs:
 
       - name: CDK Synth
         run: |
-          cdk synth
+          npx cdk synth
 
       - name: CDK Deploy
         run: |
-          cdk deploy --require-approval never --all
+          npx cdk deploy --require-approval never --all
 
       - name: Get deployment outputs
         id: outputs

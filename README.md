@@ -2,7 +2,7 @@
 
 ## Overview
 
-.This is an assessment for a backend role at Thematic.
+This is an assessment for a backend role at Thematic.
 
 You will build a serverless microservice that analyzes text data and groups similar sentences into thematic clusters. This task mimics a real production system we recently deployed - a text analysis service that processes customer feedback and generates actionable insights.
 
