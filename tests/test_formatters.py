@@ -5,6 +5,7 @@ Tests transformation of raw analysis results into API responses.
 """
 
 import pytest
+import json
 import numpy as np
 
 from src.utils.formatters import (
@@ -404,7 +405,8 @@ class TestAPIGatewayFormatters:
         assert 'headers' in api_response
         assert api_response['headers']['Content-Type'] == 'application/json'
         assert 'Access-Control-Allow-Origin' in api_response['headers']
-        assert api_response['body']['request_id'] == "test-123"
+        body = json.loads(api_response['body'])
+        assert body['request_id'] == "test-123"
 
     def test_format_error_response(self):
         """Error response should have correct structure"""
@@ -415,8 +417,9 @@ class TestAPIGatewayFormatters:
         )
 
         assert api_response['statusCode'] == 400
-        assert api_response['body']['error'] == "Test error"
-        assert api_response['body']['request_id'] == "test-456"
+        body = json.loads(api_response['body'])
+        assert body['error'] == "Test error"
+        assert body['request_id'] == "test-456"
         assert 'Access-Control-Allow-Origin' in api_response['headers']
 
     def test_cors_headers_present(self):

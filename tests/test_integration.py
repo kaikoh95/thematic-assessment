@@ -46,7 +46,7 @@ class TestEndToEndAnalysis:
         assert response['statusCode'] == 200
         assert 'body' in response
 
-        body = response['body']
+        body = json.loads(response['body'])
 
         # Check summary
         assert body['summary']['total_sentences'] == 8
@@ -96,7 +96,7 @@ class TestEndToEndAnalysis:
         response = handler(event, MockContext())
 
         assert response['statusCode'] == 200
-        body = response['body']
+        body = json.loads(response['body'])
 
         # Should have both baseline and comparison clusters
         assert body['summary']['total_sentences'] == 6
@@ -137,7 +137,8 @@ class TestEndToEndAnalysis:
         response = handler(event, MockContext())
 
         assert response['statusCode'] == 400
-        assert 'duplicate' in response['body']['error'].lower()
+        body = json.loads(response['body'])
+        assert 'validation' in body['error'].lower()
 
     def test_malformed_json_error(self):
         """Malformed JSON should return error"""
@@ -177,7 +178,7 @@ class TestEndToEndAnalysis:
         # Should complete reasonably fast (< 10s for 100 sentences)
         assert duration < 10.0, f"Processing took {duration:.2f}s (expected <10s)"
 
-        body = response['body']
+        body = json.loads(response['body'])
         assert body['summary']['total_sentences'] == 100
 
     def test_sentiment_distribution_accuracy(self):
@@ -198,7 +199,7 @@ class TestEndToEndAnalysis:
         response = handler(event, MockContext())
 
         assert response['statusCode'] == 200
-        body = response['body']
+        body = json.loads(response['body'])
 
         # Count sentiments across all clusters
         positive_count = 0
@@ -231,7 +232,7 @@ class TestEndToEndAnalysis:
         response = handler(event, MockContext())
 
         assert response['statusCode'] == 200
-        body = response['body']
+        body = json.loads(response['body'])
 
         # Should have at least 1 cluster
         assert len(body['clusters']) > 0
@@ -257,7 +258,7 @@ class TestResponseStructure:
         }
 
         response = handler(event, MockContext())
-        body = response['body']
+        body = json.loads(response['body'])
 
         # Top-level fields
         assert 'clusters' in body

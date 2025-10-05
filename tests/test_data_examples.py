@@ -63,9 +63,10 @@ class TestDataExamples:
         assert response['statusCode'] == 400, \
             f"{example_file} should fail validation due to duplicate IDs"
 
-        assert 'error' in response['body']
-        assert 'validation' in response['body']['error'].lower(), \
-            f"Error should mention validation failure, got: {response['body']['error']}"
+        body = json.loads(response['body'])
+        assert 'error' in body
+        assert 'validation' in body['error'].lower(), \
+            f"Error should mention validation failure, got: {body['error']}"
 
         print(f"✓ {example_file}: Correctly rejected with validation error")
 

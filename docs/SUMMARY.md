@@ -429,9 +429,21 @@ curl -X POST https://qs4om06hn8.execute-api.ap-southeast-2.amazonaws.com/prod/an
    - **Batch Size Tuning**
      - Current: 32 sentences per batch
      - Test optimal batch sizes for different input distributions
-   - **Async Processing** for large datasets
-     - Accept request, return job ID
-     - Process asynchronously, poll for results via separate endpoint
+   - **Async Processing** for large datasets (addresses API Gateway 29s timeout)
+     - Architecture: `POST /jobs` returns 202 + job ID → Worker Lambda (async) → `GET /jobs/{id}` polls status
+     - Storage: DynamoDB (recommended over S3) for job status/results
+       - Millisecond latency, atomic updates, built-in TTL cleanup
+       - 50% cost reduction (Nov 2024 pricing)
+       - Schema: `{jobId, status, result, ttl, createdAt}`
+     - Pattern: Proxy Lambda (sync) invokes Worker Lambda (async via Event invocation)
+       - Avoids API Gateway X-Amz-Invocation-Type header limitation with HTTP APIs
+       - Full control over job ID generation and validation
+     - Error Handling: Lambda Destinations (preferred over DLQ)
+       - On failure → SQS → Error Handler → Update DynamoDB status
+       - Provides full invocation record with request/response details
+     - TTL Strategy: Status-based cleanup (COMPLETED: 7 days, FAILED: 14 days)
+     - Cost: ~$9/month for 1M jobs (vs current ~$3.50/month)
+     - Alternative: Step Functions ($75/month) - only if multi-stage orchestration needed
 
 3. **Model Caching Strategy**
    - **S3 Model Cache**
